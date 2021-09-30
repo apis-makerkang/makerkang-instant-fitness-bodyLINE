@@ -284,13 +284,14 @@ async function checkUserIdExist() {
     
     // formEmergencyPhone 挪來用為 常用預設健身房
     //預設常用健身房 = (userProfile[11]=="undefined")? "永和店":userProfile[11];
-    //$("#預設常用健身房").val(預設常用健身房);  
-    預設常用健身房 ="未來店";
+    //$("#預設常用健身房").val(預設常用健身房); 
+    客戶名稱 = "即刻體能"; // 需與 Firebase 上名稱一致
+    預設常用健身房 ="即刻店";
       
     $("#LINE頭像").attr("src", userProfile[7]);
     
     // 讀取店面名稱和機器序號
-    paramToSend = "?API=30" + "&CustomerId=未來健身";
+    paramToSend = "?API=30" + "&CustomerId=" + 客戶名稱;
     var res = await callAPI(paramToSend, '讀取店面名稱');
     店面名稱 = JSON.parse(res);
     console.log(店面名稱);
@@ -302,7 +303,7 @@ async function checkUserIdExist() {
     
     $("#預設常用健身房").val(預設常用健身房); 
 
-    paramToSend = "?API=31" + "&CustomerId=未來健身&StoreId="+預設常用健身房;      
+    paramToSend = "?API=31" + "&CustomerId="+客戶名稱+"&StoreId="+預設常用健身房;      
     var res = await callAPI(paramToSend, '讀取店面名稱');
     var machineStatus = res.split(",");
     機器序號 = machineStatus[0];
@@ -427,7 +428,7 @@ async function 註冊會員() {
 
     if (res == "API:01 會員寫入成功" || res == "API:01 會員已存在" || "API:02 資料更新成功") {
       alert("資料更新成功，回到量測頁面");
-      $("#預設常用健身房標籤").text("未來健身 "+預設常用健身房); 
+      //$("#預設常用健身房標籤").text("未來健身 "+預設常用健身房); 
       $("#所在健身房說明").text("如果目前不在 "+預設常用健身房+ " ，請到個人資料(首頁右上角圖示)修改預設常用健身房，再回來測量。");
       checkUserIdExist();
       已經是會員 = true;
@@ -495,7 +496,7 @@ function 送出量測要求() {
     return 1;
   }
 
-  console.log("進行量測:"+"未來健身"+預設常用健身房);
+  console.log("進行量測:"+預設常用健身房);
   app.navigate('2-views/進行量測.html');
 }
 
