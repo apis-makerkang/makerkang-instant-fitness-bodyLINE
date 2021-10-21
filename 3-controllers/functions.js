@@ -362,9 +362,46 @@ async function 註冊會員() {
       || $("#formEmergencyPhone").val()   == ""          
      ) {
     alert("請填寫必填項目!");
-    //return false;
+    console.log("缺必填項目")
+    return false;
   }
-
+  
+  // Brithday 格式 YYYY-MM
+  var regex_birthday = /^[1-2][0-9]{3}-(0[1-9]|1[012])$/;
+  if (!regex_birthday.test($("#formUserBirth").val())){
+    alert("出生年月格式錯誤!");
+    console.log("birthday format is wrong");
+    return false;
+  }
+  console.log("birthday format is correct");
+  
+  // Brithday 限制前ㄧ年 到 前 100 年  
+  var dateNow = new Date();
+  var thisYear = parseInt( dateNow.toLocaleDateString().substr(0,4));
+  var birthYear = parseInt($("#formUserBirth").val().substr(0,4));
+  console.log(thisYear, birthYear);
+  if ( (birthYear> (thisYear-1)) || (birthYear < (thisYear-100)) ){
+    alert("出生年必須在 "+ (thisYear-100).toString()+ "~"+ (thisYear-1).toString()+ " 之間!");
+    console.log("birthday year is out of range");
+    return false;
+  }
+  console.log("birthday year is in range");
+  
+  // 身高限制 50 cm ~ 300cm
+  var regex_height = /^[1-9][0-9]{1,2}$/g;
+  if (!regex_height.test($("#formUserHeight").val())){
+    alert("身高格式錯誤!");
+    console.log("Height format is wrong");
+    return false;    
+  }
+  var userHeight = parseInt($("#formUserHeight").val());
+  if ( userHeight<50 || userHeight > 300) {
+    alert("身高必須在 50cm ~ 300cm 之間!");
+    console.log("Height is out of range");
+    return false;    
+  }
+  
+  console.log("進行更新會員資料")
   var APIToCall = (已經是會員)?  "?API=02":"?API=01"
   paramToSend = APIToCall +
     "&Name="             + $("#formUserName").val() +
