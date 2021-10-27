@@ -397,7 +397,7 @@ async function 註冊會員() {
   }
 
   var userHeight = parseFloat($("#formUserHeight").val());
-  if (isNaN(userHeight))
+  console.log(userHeight);
   if ( userHeight<50 || userHeight > 300) {
     alert("身高必須在 50cm ~ 300cm 之間!");
     console.log("Height is out of range");
