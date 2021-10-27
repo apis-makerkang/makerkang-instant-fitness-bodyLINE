@@ -388,13 +388,16 @@ async function 註冊會員() {
   console.log("birthday year is in range");
   
   // 身高限制 50 cm ~ 300cm
-  var regex_height = /^[1-9][0-9]{1,2}$/g;
+//  var regex_height = /^[1-9][0-9]{1,2}$/g;
+  var regex_height = /^[1-9][0-9]{1,2}(\.\d{0,2})?$/g;
   if (!regex_height.test($("#formUserHeight").val())){
     alert("身高格式錯誤!");
     console.log("Height format is wrong");
     return false;    
   }
-  var userHeight = parseInt($("#formUserHeight").val());
+
+  var userHeight = parseFloat($("#formUserHeight").val());
+  if (isNaN(userHeight))
   if ( userHeight<50 || userHeight > 300) {
     alert("身高必須在 50cm ~ 300cm 之間!");
     console.log("Height is out of range");
